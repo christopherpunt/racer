@@ -1,3 +1,4 @@
+from Vision import Vision
 import pyglet
 import math
 import helpermethods
@@ -26,6 +27,7 @@ class Car:
         self.rotationAcceleration = 0
         self.rotationVelocity = 0
         self.hit = False
+        self.vision = Vision(self.x, self.y, self.direction)
 
         #pyglet defs
         self.carPic = pyglet.image.load("images/car.png")
@@ -56,16 +58,6 @@ class Car:
         BRcornerX = self.x + Car.WIDTH/2 * math.cos(math.radians(self.direction)) + Car.LENGTH/2 * math.sin(math.radians(self.direction))
         BRcornerY = self.y + Car.WIDTH/2 * math.sin(math.radians(self.direction)) - Car.LENGTH/2 * math.cos(math.radians(self.direction))
 
-        # FRcircle = shapes.Circle(FRcornerX, FRcornerY, 5, color=(255,0,0))
-        # FLcircle = shapes.Circle(FLcornerX, FLcornerY, 5, color=(255,0,0))
-        # BRcircle = shapes.Circle(BRcornerX, BRcornerY, 5, color=(255,0,0))
-        # BLcircle = shapes.Circle(BLcornerX, BLcornerY, 5, color=(255,0,0))
-
-        # FRcircle.draw()
-        # FLcircle.draw()
-        # BRcircle.draw()
-        # BLcircle.draw()
-
         for wall in self.walls:
 
             #front line, left line, right line, back line
@@ -85,6 +77,8 @@ class Car:
         self.updateControls()
         self.move()
         self.limitations()
+        self.vision.update(self.x, self.y, self.direction)
+
 
     def limitations(self):
         #limit velocity
@@ -152,4 +146,5 @@ class Car:
 
     def render(self):
         self.update()
+        self.vision.draw()
         self.carSprite.draw()

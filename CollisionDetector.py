@@ -3,9 +3,10 @@ from Car import Car
 import helpermethods
 
 class CollisionDetector:
-    def __init__(self, car, walls):
+    def __init__(self, car, walls, vision):
         self.car = car
         self.walls = walls
+        self.vision = vision
 
     def carWallCollisionDetection(self):
             self.car.direction = -self.car.direction
@@ -22,16 +23,6 @@ class CollisionDetector:
             BRcornerX = self.car.x + Car.WIDTH/2 * math.cos(math.radians(self.car.direction)) + Car.LENGTH/2 * math.sin(math.radians(self.car.direction))
             BRcornerY = self.car.y + Car.WIDTH/2 * math.sin(math.radians(self.car.direction)) - Car.LENGTH/2 * math.cos(math.radians(self.car.direction))
 
-            # FRcircle = shapes.Circle(FRcornerX, FRcornerY, 5, color=(255,0,0))
-            # FLcircle = shapes.Circle(FLcornerX, FLcornerY, 5, color=(255,0,0))
-            # BRcircle = shapes.Circle(BRcornerX, BRcornerY, 5, color=(255,0,0))
-            # BLcircle = shapes.Circle(BLcornerX, BLcornerY, 5, color=(255,0,0))
-
-            # FRcircle.draw()
-            # FLcircle.draw()
-            # BRcircle.draw()
-            # BLcircle.draw()
-
             for wall in self.walls:
 
                 #front line, left line, right line, back line
@@ -45,4 +36,10 @@ class CollisionDetector:
                 else:
                     if (wall.hit == True):
                         wall.hit = False
-                    # return False
+
+    def visionWallCollisionDetection(self):
+        for wall in self.walls:
+            if (helpermethods.twoLinesCollided(self.vision.forwardVector, wall)):
+                print("collision")
+
+        
