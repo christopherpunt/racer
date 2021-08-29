@@ -1,3 +1,4 @@
+from helperMethodsTests import helperMethodsTests
 from Game import Game
 import pyglet
 from pyglet.window import key
@@ -43,6 +44,7 @@ class GameWindow(pyglet.window.Window):
 
 
 if __name__ == "__main__":
+    helperMethodsTests()
     window = GameWindow(1800, 1000, "AI racing game")
     pyglet.clock.schedule_interval(window.update, 1/frameRate)
     pyglet.app.run()

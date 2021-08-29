@@ -70,15 +70,14 @@ class Car:
             else:
                 wall.turnWhite()
                 # return False
-            
+
     def update(self):
         self.direction = ((self.carSprite.rotation + 90) % 360)
 
         self.updateControls()
         self.move()
         self.limitations()
-        self.vision.update(self.x, self.y, self.direction)
-
+        self.vision.update(self.x, self.y, self.direction - 90)
 
     def limitations(self):
         #limit velocity
@@ -92,7 +91,6 @@ class Car:
             self.rotationVelocity = Car.MAX_ROTATION_VELOCITY
         elif self.rotationVelocity < -Car.MAX_ROTATION_VELOCITY:
             self.rotationVelocity = -Car.MAX_ROTATION_VELOCITY
-
 
     def move(self):
         #forwards and backwards motion
@@ -142,7 +140,6 @@ class Car:
         else:
             self.rotationAcceleration = 0
             self.rotationVelocity = 0
-
 
     def render(self):
         self.update()

@@ -1,9 +1,37 @@
-def linesCollided_old(x1, y1, x2, y2, x3, y3, x4, y4):
-    uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1))
-    uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1))
-    if 0 <= uA <= 1 and 0 <= uB <= 1:
-        return True
-    return False
+from pyglet import shapes
+import math
+
+
+class Line:
+    def __init__(self, x1, y1, x2, y2):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.line = shapes.Line(x1, y1, x2, y2, width=1)
+
+    def linesCollided(self, line1, line2):
+        pass
+
+    def getLength(self):
+        return math.sqrt( ((self.x2-self.x1)**2)+((self.y2-self.y1)**2) )        
+
+    def draw(self):
+        self.line.draw()
+    
+    def update(self, x1, y1, x2, y2):
+        self.line.x = x1
+        self.line.y = y1
+        self.line.x2 = x2
+        self.line.y2 = y2
+
+class Ray(Line):
+    def __init__(self, x, y, direction):
+        self.length = 300
+        Line.__init__(self, x, y, x + self.length * math.cos(math.radians(direction)), y + self.length * math.sin(math.radians(direction)))
+
+    def update(self, x, y, direction):
+        Line.update(self, x, y, x + self.length * math.cos(math.radians(-direction)), y + self.length * math.sin(math.radians(-direction)))
 
 
 def linesCollided(Ax1, Ay1, Ax2, Ay2, Bx1, By1, Bx2, By2):
@@ -19,19 +47,3 @@ def linesCollided(Ax1, Ay1, Ax2, Ay2, Bx1, By1, Bx2, By2):
     y = Ay1 + uA * (Ay2 - Ay1)
 
     return True
-
-def twoLinesCollided(line1, line2):
-    xdiff = (line1.line.x - line1.line.y, line2.x1 - line2.y1)
-    ydiff = (line1.line.x2 - line1.line.y2, line2.x2 - line2.y2)
-
-    def det(a, b):
-        return a[0] * b[1] - a[1] * b[0]
-
-    div = det(xdiff, ydiff)
-    if div == 0:
-       return
-
-    d = (det(*line1), det(*line2))
-    x = det(d, xdiff) / div
-    y = det(d, ydiff) / div
-    return x, y
