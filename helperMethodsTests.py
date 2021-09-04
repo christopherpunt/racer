@@ -29,5 +29,6 @@ class helperMethodsTests:
         line = Line(0,0,2,2)
         line1 = Line(2,0,0,2)
         intersection = line.twoLinesCollided(line1)
-        assert(intersection == (1, 1))
+        assert(intersection.x == 1)
+        assert(intersection.y == 1)
     

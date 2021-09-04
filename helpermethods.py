@@ -34,7 +34,7 @@ class Line:
         x = Ax1 + uA * (Ax2 - Ax1)
         y = Ay1 + uA * (Ay2 - Ay1)
 
-        return x, y
+        return Point(x, y)
 
     def turnRed(self):
         red = (255,0,0)

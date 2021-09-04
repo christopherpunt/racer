@@ -8,18 +8,18 @@ class CollisionDetector:
 
     def carWallCollisionDetection(self):
         for wall in self.walls:
+            wall.carHit = False
             for side in self.car.sides:
                 if side.twoLinesCollided(wall.line):
                     wall.carHit = True
                     break
-                else:
-                    wall.carHit = False
 
     def visionWallCollisionDetection(self):
         for wall in self.walls:
+            wall.visionHit = False
             for vector in self.visionVectors:
-                if vector.twoLinesCollided(wall.line):
+                intersection = vector.twoLinesCollided(wall.line)
+                if intersection:
                     wall.visionHit = True
+                    intersection.draw()
                     break
-                else:
-                    wall.visionHit = False
