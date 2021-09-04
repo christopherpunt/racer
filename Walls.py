@@ -68,11 +68,12 @@ class Walls():
 
 class Wall():
     def __init__(self, x1, y1, x2, y2):
-        self.hit = True
+        self.carHit = False
+        self.visionHit = False
         self.line = Line(x1, y1, x2, y2) 
 
     def display(self):
-        if (self.hit):
+        if (self.carHit or self.visionHit):
             self.line.turnRed()
         else:
             self.line.turnWhite()

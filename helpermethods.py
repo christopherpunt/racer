@@ -73,4 +73,3 @@ class Ray(Line):
     def update(self, x, y, direction):
         direction = direction
         Line.update(self, x, y, x + self.length * math.cos(math.radians(-direction)), y + self.length * math.sin(math.radians(-direction)))
-

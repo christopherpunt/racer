@@ -1,4 +1,3 @@
-from ctypes import LittleEndianStructure
 from Vision import Vision
 from helpermethods import Line, LineFromPoints, Point
 import pyglet
@@ -151,7 +150,7 @@ class Car:
 
     def render(self):
         self.update()
-        # for side in self.sides:
-        #     side.draw()
         self.vision.draw()
+        for side in self.sides:
+            side.draw()
         self.carSprite.draw()
