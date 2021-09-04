@@ -7,6 +7,7 @@ class helperMethodsTests:
     def runTests(self):
         self.lineTest()
         self.RayTests()
+        self.lineCollisionTest()
 
     def lineTest(self):
         line = Line(0,0,0,0)
@@ -24,4 +25,9 @@ class helperMethodsTests:
         assert(ray2.getLength() == 300)
         print("rayTest Passed!")
 
+    def lineCollisionTest(self):
+        line = Line(0,0,2,2)
+        line1 = Line(2,0,0,2)
+        intersection = line.twoLinesCollided(line1)
+        assert(intersection == (1, 1))
     

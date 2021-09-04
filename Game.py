@@ -19,8 +19,8 @@ class Game:
 
     def render(self):
         self.trackSprite.draw()
-        self.CollisionDetector.carWallCollisionDetection()
-        # self.CollisionDetector.visionWallCollisionDetection()
+        # self.CollisionDetector.carWallCollisionDetection()
+        self.CollisionDetector.visionWallCollisionDetection()
         self.walls.display()
         self.car.render()
 

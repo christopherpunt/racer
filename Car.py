@@ -1,7 +1,8 @@
+from ctypes import LittleEndianStructure
 from Vision import Vision
+from helpermethods import Line, LineFromPoints, Point
 import pyglet
 import math
-import helpermethods
 
 class Car:
     START_POS_X = 250
@@ -15,6 +16,8 @@ class Car:
     FRICTION = .1
 
     def __init__(self):
+        #region carInit
+
         self.x = Car.START_POS_X
         self.y = Car.START_POS_Y
         self.velx = 0
@@ -27,6 +30,18 @@ class Car:
         self.rotationAcceleration = 0
         self.rotationVelocity = 0
         self.hit = False
+
+        #endregion
+
+        #region sides
+        self.frontSide = Line(0,0,0,0)
+        self.backSide = Line(0,0,0,0)
+        self.leftSide = Line(0,0,0,0)
+        self.rightSide = Line(0,0,0,0)
+        self.sides = self.setSides()
+
+        #endregion
+
         self.vision = Vision(self.x, self.y, self.direction)
 
         #pyglet defs
@@ -43,37 +58,30 @@ class Car:
         self.accelerating = False
         self.reversing = False
 
-    def hitWall(self):
-        self.direction = -self.direction
+    def setSides(self):
+        FRcorner = Point(self.x + Car.WIDTH/2 * math.cos(math.radians(-self.direction)) + Car.LENGTH/2 * math.sin(math.radians(-self.direction)), \
+            self.y + Car.WIDTH/2 * math.sin(math.radians(-self.direction)) - Car.LENGTH/2 * math.cos(math.radians(-self.direction)))
 
-        FRcornerX = self.x + Car.WIDTH/2 * math.cos(math.radians(self.direction)) - Car.LENGTH/2 * math.sin(math.radians(self.direction))
-        FRcornerY = self.y + Car.WIDTH/2 * math.sin(math.radians(self.direction)) + Car.LENGTH/2 * math.cos(math.radians(self.direction))
+        FLcorner = Point(self.x - Car.WIDTH/2 * math.cos(math.radians(-self.direction)) + Car.LENGTH/2 * math.sin(math.radians(-self.direction)), \
+            self.y - Car.WIDTH/2 * math.sin(math.radians(-self.direction)) - Car.LENGTH/2 * math.cos(math.radians(-self.direction)))
 
-        FLcornerX = self.x - Car.WIDTH/2 * math.cos(math.radians(self.direction)) - Car.LENGTH/2 * math.sin(math.radians(self.direction))
-        FLcornerY = self.y - Car.WIDTH/2 * math.sin(math.radians(self.direction)) + Car.LENGTH/2 * math.cos(math.radians(self.direction))
+        BLcorner = Point(self.x - Car.WIDTH/2 * math.cos(math.radians(-self.direction)) - Car.LENGTH/2 * math.sin(math.radians(-self.direction)), \
+            self.y - Car.WIDTH/2 * math.sin(math.radians(-self.direction)) + Car.LENGTH/2 * math.cos(math.radians(-self.direction)))
 
-        BLcornerX = self.x - Car.WIDTH/2 * math.cos(math.radians(self.direction)) + Car.LENGTH/2 * math.sin(math.radians(self.direction))
-        BLcornerY = self.y - Car.WIDTH/2 * math.sin(math.radians(self.direction)) - Car.LENGTH/2 * math.cos(math.radians(self.direction))
+        BRcorner = Point(self.x + Car.WIDTH/2 * math.cos(math.radians(-self.direction)) - Car.LENGTH/2 * math.sin(math.radians(-self.direction)), \
+            self.y + Car.WIDTH/2 * math.sin(math.radians(-self.direction)) + Car.LENGTH/2 * math.cos(math.radians(self.direction)))
 
-        BRcornerX = self.x + Car.WIDTH/2 * math.cos(math.radians(self.direction)) + Car.LENGTH/2 * math.sin(math.radians(self.direction))
-        BRcornerY = self.y + Car.WIDTH/2 * math.sin(math.radians(self.direction)) - Car.LENGTH/2 * math.cos(math.radians(self.direction))
-
-        for wall in self.walls:
-
-            #front line, left line, right line, back line
-            if helpermethods.linesCollided(wall.x1, wall.y1, wall.x2, wall.y2, FLcornerX, FLcornerY, FRcornerX, FRcornerY) or \
-                helpermethods.linesCollided(wall.x1, wall.y1, wall.x2, wall.y2, FLcornerX, FLcornerY, BLcornerX, BLcornerY) or \
-                helpermethods.linesCollided(wall.x1, wall.y1, wall.x2, wall.y2, FRcornerX, FRcornerY, BRcornerX, BRcornerY) or \
-                helpermethods.linesCollided(wall.x1, wall.y1, wall.x2, wall.y2, BLcornerX, BLcornerY, BRcornerX, BRcornerY):
-                wall.turnRed()
-                # return True
-            else:
-                wall.turnWhite()
-                # return False
+        self.frontSide = LineFromPoints(FLcorner, FRcorner)
+        self.backSide = LineFromPoints(BLcorner, BRcorner)
+        self.leftSide = LineFromPoints(BLcorner, FLcorner)
+        self.rightSide = LineFromPoints(BRcorner, FRcorner)
+        self.sides = [self.frontSide, self.backSide, self.leftSide, self.rightSide]
+        return self.sides
 
     def update(self):
         self.direction = ((self.carSprite.rotation + 90) % 360)
 
+        self.setSides()
         self.updateControls()
         self.move()
         self.limitations()
@@ -143,5 +151,7 @@ class Car:
 
     def render(self):
         self.update()
+        # for side in self.sides:
+        #     side.draw()
         self.vision.draw()
         self.carSprite.draw()

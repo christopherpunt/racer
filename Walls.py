@@ -1,4 +1,5 @@
-from pyglet import shapes
+from helpermethods import Line
+
 
 class Walls():
     def __init__(self):
@@ -67,25 +68,12 @@ class Walls():
 
 class Wall():
     def __init__(self, x1, y1, x2, y2):
-        self.hit = False
-        self.x1 = x1
-        self.y1 = y1
-        self.x2 = x2
-        self.y2 = y2
-
-        self.line = shapes.Line(self.x1, self.y1, self.x2, self.y2, width=2)
+        self.hit = True
+        self.line = Line(x1, y1, x2, y2) 
 
     def display(self):
         if (self.hit):
-            self.turnRed()
+            self.line.turnRed()
         else:
-            self.turnWhite()
-
+            self.line.turnWhite()
         self.line.draw()
-
-    def turnRed(self):
-        red = (255,0,0)
-        self.line.color = red
-    def turnWhite(self):
-        white = (255,255,255)
-        self.line.color = white
