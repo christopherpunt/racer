@@ -1,10 +1,10 @@
 
 
 class CollisionDetector:
-    def __init__(self, car, walls, vision):
+    def __init__(self, car, walls, visionVectors):
         self.car = car
         self.walls = walls
-        self.vision = vision
+        self.visionVectors = visionVectors
 
     def carWallCollisionDetection(self):
         for wall in self.walls:
@@ -17,7 +17,9 @@ class CollisionDetector:
 
     def visionWallCollisionDetection(self):
         for wall in self.walls:
-            if (wall.line.twoLinesCollided(self.vision.forwardVector)):
-                wall.visionHit = True
-            else:
-                wall.visionHit = False
+            for vector in self.visionVectors:
+                if vector.twoLinesCollided(wall.line):
+                    wall.visionHit = True
+                    break
+                else:
+                    wall.visionHit = False

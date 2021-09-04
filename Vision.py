@@ -8,9 +8,15 @@ class Vision:
         self.carDirection = carDirection
 
         self.forwardVector = Ray(self.carX, self.carY, self.carDirection)
+        self.backVector = Ray(self.carX, self.carY, self.carDirection + 180)
+        self.visionVectors = [self.forwardVector, self.backVector]
 
     def draw(self):
-        self.forwardVector.draw()
+        for vector in self.visionVectors:
+            vector.draw()
 
     def update(self, x, y, direction):
+        # for vector in self.visionVectors:
+        #     vector.update(x, y, direction)
         self.forwardVector.update(x, y, direction)
+        self.backVector.update(x, y, direction + 180)

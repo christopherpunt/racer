@@ -12,7 +12,7 @@ class Game:
         self.walls = Walls()
         self.car = Car()
 
-        self.CollisionDetector = CollisionDetector(self.car, self.walls.walls, self.car.vision)
+        self.CollisionDetector = CollisionDetector(self.car, self.walls.walls, self.car.vision.visionVectors)
 
     def render(self):
         self.trackSprite.draw()
