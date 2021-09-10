@@ -1,4 +1,4 @@
-from helpermethods import Line
+from helpers.helpermethods import Line
 
 
 class Walls():

@@ -1,4 +1,4 @@
-from helpermethods import Ray
+from helpers.helpermethods import Ray
 
 
 class Vision:

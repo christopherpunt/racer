@@ -1,4 +1,4 @@
-from helpermethods import Line, Ray
+from helpers.helpermethods import Line, Ray
 
 class helperMethodsTests:
     def __init__(self):

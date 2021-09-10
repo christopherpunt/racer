@@ -1,5 +1,5 @@
-from Vision import Vision
-from helpermethods import Line, LineFromPoints, Point
+from Objects.Vision import Vision
+from helpers.helpermethods import Line, LineFromPoints, Point
 import pyglet
 import math
 

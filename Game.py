@@ -1,7 +1,7 @@
 import pyglet
-from Car import Car
-from Walls import Walls
-from CollisionDetector import CollisionDetector
+from Objects.Car import Car
+from Objects.Walls import Walls
+from Objects.CollisionDetector import CollisionDetector
 
 
 class Game:

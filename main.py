@@ -1,4 +1,4 @@
-from helperMethodsTests import helperMethodsTests
+from Tests.helperMethodsTests import helperMethodsTests
 from Game import Game
 import pyglet
 from pyglet.window import key
